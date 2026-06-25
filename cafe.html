@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>職涯珈琲館</title>
+<script src="https://lf-lynx.toutiao.com/obj/lynx-oversea/feoffline/lark-h5-sdk/h5sdk.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1142,6 +1143,14 @@
       <div class="survey-section-label">基本資訊</div>
 
       <div class="q-card">
+        <div class="q-num">預約者</div>
+        <div class="q-title">你的英文名或暱稱 <span class="badge-required">必填</span></div>
+        <div class="q-hint">方便諮詢師稱呼你，也作為預約紀錄識別用。</div>
+        <input type="text" class="q-input" id="q0" placeholder="例：Mia、Allen、小花" oninput="updateProgress()">
+        <div class="field-error" id="err-q0">請填寫你的名字或暱稱</div>
+      </div>
+
+      <div class="q-card">
         <div class="q-num">Q1</div>
         <div class="q-title">你的部門與職稱 <span class="badge-required">必填</span></div>
         <div class="q-hint">填寫後可幫助諮詢師預先了解你的工作情境。</div>
@@ -1493,6 +1502,7 @@ function selectCheckbox(name, el, value, hasOther = false) {
 
 function updateProgress() {
   const fields = [
+    document.getElementById('q0')?.value.trim(),
     document.getElementById('q1')?.value.trim(),
     state.radios['q2'],
     state.radios['q3'],
@@ -1516,6 +1526,7 @@ function validateSurvey() {
     if (el) { cond ? el.classList.remove('visible') : (el.classList.add('visible'), valid = false); }
   }
 
+  check(document.getElementById('q0').value.trim(), 'err-q0');
   check(document.getElementById('q1').value.trim(), 'err-q1');
   check(state.radios['q2'], 'err-q2');
   check(state.radios['q3'], 'err-q3');
@@ -1555,7 +1566,8 @@ async function submitSurvey() {
     larkUserName: state.larkUserName,
     menu: menuLabels[state.selectedMenu] || state.selectedMenu,
     privacyConfirmedAt: state.confirmTimestamp,
-    // Q1-Q9
+    // 預約者名稱 + Q1-Q9
+    q0_name: document.getElementById('q0').value.trim(),
     q1_dept: document.getElementById('q1').value.trim(),
     q2_tenure: state.radios['q2'] || '',
     q3_status: state.radios['q3'] || '',
@@ -1586,6 +1598,7 @@ async function submitSurvey() {
         larkUserName:       payload.larkUserName,
         larkUserId:         payload.larkUserId,
         menu:               payload.menu,
+        q0_name:            payload.q0_name,
         q1_dept:            payload.q1_dept,
         q2_tenure:          payload.q2_tenure,
         q3_status:          payload.q3_status,
