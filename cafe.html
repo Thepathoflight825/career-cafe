@@ -1573,33 +1573,28 @@ async function submitSurvey() {
   document.getElementById('loading').classList.add('active');
 
   try {
-    // ── 寫入 Lark 多維表格 ──
-    const CAFE_WORKER = 'https://cafe-worker.sherrya82255.workers.dev';
-    const CAFE_APP_TOKEN = 'LG7LbYC0LasBl3sOU7jl18zMgve';
-    const CAFE_TABLE_ID  = 'tblJP7hv4RNJlZmT';
+    // ── 寫入 Google Sheet + 發送 Gmail 通知 ──
+    // 部署 cafe-gas.js 後，將 GAS 部署 URL 填入下方
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyqiu59-ZuLrhumoDRviUrw_F1WXECvQDJUGelEha9kPAXuK_gfG4Q_jVdFiPUFt9I/exec';
 
-    await fetch(`${CAFE_WORKER}/submit`, {
+    await fetch(GAS_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
-        appToken: CAFE_APP_TOKEN,
-        tableId:  CAFE_TABLE_ID,
-        fields: {
-          '提交時間':       payload.submittedAt,
-          '申請者名稱':     payload.larkUserName,
-          'Lark User ID':  payload.larkUserId,
-          '諮詢方向選擇':   payload.menu,
-          '部門與職稱':     payload.q1_dept,
-          '服務年資區間':   payload.q2_tenure,
-          '近期整體狀態':   payload.q3_status,
-          '工作滿意度':     Number(payload.q4_satisfaction),
-          '想討論的方向':   payload.q5_topics,
-          '背景說明':       payload.q6_description,
-          '期望帶走的收穫': payload.q7_takeaway,
-          '偏好時段':       payload.q8_timeslots,
-          '諮詢形式':       payload.q9_format,
-          '保密確認時間':   payload.privacyConfirmedAt,
-        }
+        submittedAt:        payload.submittedAt,
+        larkUserName:       payload.larkUserName,
+        larkUserId:         payload.larkUserId,
+        menu:               payload.menu,
+        q1_dept:            payload.q1_dept,
+        q2_tenure:          payload.q2_tenure,
+        q3_status:          payload.q3_status,
+        q4_satisfaction:    payload.q4_satisfaction,
+        q5_topics:          payload.q5_topics,
+        q6_description:     payload.q6_description,
+        q7_takeaway:        payload.q7_takeaway,
+        q8_timeslots:       payload.q8_timeslots,
+        q9_format:          payload.q9_format,
+        privacyConfirmedAt: payload.privacyConfirmedAt,
       })
     });
 
