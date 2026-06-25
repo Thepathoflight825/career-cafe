@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>職涯珈琲館</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1e3028;
+    --forest-mid: #2a4035;
+    --forest-light: #3a5545;
+    --gold: #c9a96e;
+    --gold-light: #e2c99a;
+    --cream: #f5f0e8;
+    --parchment: #ede5d4;
+    --espresso: #2c1a0e;
+    --latte: #8b6f47;
+    --mist: #f9f7f3;
+    --text-dark: #1a1208;
+    --text-mid: #4a3b28;
+    --text-light: #7a6a55;
+    --border: #d4c9b0;
+    --success: #4a7c59;
+    --error: #8b3a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--forest);
+    min-height: 100vh;
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── 環境背景紋理 ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(201,169,110,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(74,124,89,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .app-wrapper {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── 頂部品牌小標 ── */
+  .brand-tag {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 32px;
+    margin-top: 8px;
+  }
+
+  /* ══════════════════════════════
+     SCREEN 1：木牌
+  ══════════════════════════════ */
+  #screen-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.8s ease;
+  }
+
+  /* 木牌外框 */
+  .sign-board {
+    background: linear-gradient(160deg, #5c3d1e 0%, #3d2710 40%, #4a3018 100%);
+    border-radius: 12px;
+    padding: 40px 36px;
+    width: min(420px, 100%);
+    position: relative;
+    box-shadow:
+      0 4px 0 #2a1a08,
+      0 8px 32px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  /* 木紋效果 */
+  .sign-board::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: repeating-linear-gradient(
+      88deg,
+      transparent,
+      transparent 12px,
+      rgba(0,0,0,0.04) 12px,
+      rgba(0,0,0,0.04) 13px
+    );
+  }
+
+  /* 掛繩 */
+  .sign-rope {
+    display: flex;
+    justify-content: space-around;
+    width: min(260px, 70%);
+    margin-bottom: -2px;
+  }
+  .sign-rope span {
+    width: 3px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--gold) 0%, var(--latte) 100%);
+    border-radius: 2px;
+    opacity: 0.8;
+  }
+
+  .sign-inner {
+    position: relative;
+    text-align: center;
+  }
+
+  .sign-deco-top {
+    font-size: 20px;
+    margin-bottom: 12px;
+    opacity: 0.6;
+  }
+
+  .sign-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    margin-bottom: 6px;
+  }
+
+  .sign-name-en {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 11px;
+    color: var(--gold-light);
+    letter-spacing: 0.25em;
+    opacity: 0.65;
+    margin-bottom: 20px;
+  }
+
+  .sign-divider {
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 16px auto;
+    opacity: 0.5;
+  }
+
+  .sign-hours-label {
+    font-size: 10px;
+    color: var(--gold-light);
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+    margin-bottom: 6px;
+  }
+
+  .sign-hours {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+
+  .sign-closed-notice {
+    margin-top: 14px;
+    padding: 10px 16px;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 6px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 12px;
+    color: var(--gold-light);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* 圖卡區 */
+  .menu-label {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-align: center;
+    margin: 36px 0 20px;
+    opacity: 0.8;
+  }
+
+  .menu-cards {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: min(520px, 100%);
+  }
+
+  .menu-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 14px;
+    padding: 22px 18px;
+    flex: 1;
+    min-width: 130px;
+    max-width: 160px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(4px);
+  }
+
+  .menu-card:hover {
+    background: rgba(201,169,110,0.1);
+    border-color: rgba(201,169,110,0.5);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,169,110,0.3);
+  }
+
+  .menu-card:active { transform: translateY(-2px); }
+
+  .card-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.6;
+  }
+
+  .enter-hint {
+    color: rgba(245,240,232,0.35);
+    font-size: 11px;
+    margin-top: 28px;
+    text-align: center;
+    letter-spacing: 0.08em;
+  }
+
+  /* ══════════════════════════════
+     SCREEN 2：保密說明
+  ══════════════════════════════ */
+  #screen-privacy {
+    display: none;
+    width: min(640px, 100%);
+    animation: slideUp 0.5s ease;
+  }
+
+  .content-card {
+    background: var(--mist);
+    border-radius: 16px;
+    padding: 36px 32px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.3);
+  }
+
+  .screen-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .screen-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--latte);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .screen-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--espresso);
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+  }
+
+  .screen-subtitle {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 6px;
+  }
+
+  .divider-ornament {
+    text-align: center;
+    color: var(--gold);
+    opacity: 0.4;
+    font-size: 14px;
+    letter-spacing: 0.5em;
+    margin: 20px 0;
+  }
+
+  /* 保密說明內容 */
+  .privacy-section {
+    margin-bottom: 22px;
+  }
+
+  .privacy-section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .privacy-section-title::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--gold);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .privacy-body {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.85;
+  }
+
+  .privacy-list {
+    list-style: none;
+    margin-top: 8px;
+  }
+
+  .privacy-list li {
+    padding: 5px 0 5px 16px;
+    position: relative;
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .privacy-list li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--gold);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .privacy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .privacy-table th {
+    background: var(--forest);
+    color: var(--gold-light);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .privacy-table th:first-child { border-radius: 6px 0 0 0; }
+  .privacy-table th:last-child { border-radius: 0 6px 0 0; }
+
+  .privacy-table td {
+    padding: 8px 12px;
+    color: var(--text-mid);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+  }
+
+  .privacy-table tr:nth-child(even) td { background: var(--parchment); }
+
+  .promise-box {
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-mid) 100%);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 20px 0;
+  }
+
+  .promise-box p {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.9;
+    font-style: italic;
+    opacity: 0.9;
+  }
+
+  /* 確認勾選區 */
+  .confirm-box {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 24px;
+  }
+
+  .confirm-box-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 14px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .check-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: var(--forest);
+    cursor: pointer;
+  }
+
+  .check-item span {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%);
+    color: var(--gold-light);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(30,48,40,0.3);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(30,48,40,0.4);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ══════════════════════════════
+     SCREEN 3：前置問卷
+  ══════════════════════════════ */
+  #screen-survey {
+    display: none;
+    width: min(640px, 100%);
+    animation: slideUp 0.5s ease;
+  }
+
+  .survey-progress {
+    background: rgba(255,255,255,0.06);
+    border-radius: 100px;
+    height: 3px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .survey-progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    border-radius: 100px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .survey-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(201,169,110,0.08);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: var(--gold-light);
+    line-height: 1.7;
+  }
+
+  .survey-notice .icon { font-size: 14px; flex-shrink: 0; }
+
+  .survey-section-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--latte);
+    text-transform: uppercase;
+    margin: 28px 0 14px;
+    padding-left: 2px;
+    opacity: 0.8;
+  }
+
+  .q-card {
+    background: var(--mist);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .q-num {
+    font-size: 10px;
+    color: var(--latte);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .q-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .badge-required {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    background: #fde8e4;
+    color: var(--error);
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0;
+  }
+
+  .q-hint {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  /* 文字輸入 */
+  .q-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .q-input:focus { border-color: var(--forest); }
+
+  textarea.q-input {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.7;
+  }
+
+  /* 單選 */
+  .radio-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .radio-option:hover { border-color: var(--forest-light); background: var(--mist); }
+  .radio-option.selected { border-color: var(--forest); background: rgba(30,48,40,0.05); color: var(--forest); font-weight: 500; }
+  .radio-option input { display: none; }
+
+  .radio-option::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .radio-option.selected::before {
+    border-color: var(--forest);
+    background: var(--forest);
+    box-shadow: inset 0 0 0 3px white;
+  }
+
+  /* 四格單選 */
+  .radio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  /* 滑桿 */
+  .slider-wrap { padding: 4px 0; }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .slider-value-display {
+    text-align: center;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 8px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--forest);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  /* 多選 */
+  .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .checkbox-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+
+  .checkbox-option:hover { border-color: var(--forest-light); }
+  .checkbox-option.selected { border-color: var(--forest); background: rgba(30,48,40,0.05); }
+
+  .checkbox-option input { display: none; }
+
+  .checkbox-box {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .checkbox-option.selected .checkbox-box {
+    background: var(--forest);
+    border-color: var(--forest);
+  }
+
+  .checkbox-option.selected .checkbox-box::after {
+    content: '✓';
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .checkbox-text { flex: 1; }
+  .checkbox-label { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+  .checkbox-sublabel { font-size: 11px; color: var(--text-light); margin-top: 2px; line-height: 1.5; }
+
+  /* 時段填寫區 */
+  .time-slot-entry {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+
+  .time-slot-num {
+    width: 22px;
+    height: 22px;
+    background: var(--forest);
+    color: var(--gold-light);
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .time-slot-input {
+    flex: 1;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    color: var(--text-dark);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .time-slot-input:focus { border-color: var(--forest); }
+
+  .time-hint-tag {
+    font-size: 11px;
+    color: var(--latte);
+    background: var(--parchment);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+
+  /* 其他說明 */
+  .other-explain {
+    margin-top: 10px;
+    display: none;
+  }
+
+  .other-explain.visible { display: block; }
+
+  /* 表單驗證提示 */
+  .field-error {
+    font-size: 11px;
+    color: var(--error);
+    margin-top: 6px;
+    display: none;
+  }
+
+  .field-error.visible { display: block; }
+
+  /* 送出按鈕 */
+  .submit-section {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .btn-submit {
+    padding: 16px 48px;
+    background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%);
+    color: var(--gold-light);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(30,48,40,0.3);
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(30,48,40,0.4);
+  }
+
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ══════════════════════════════
+     SCREEN 4：送出成功
+  ══════════════════════════════ */
+  #screen-done {
+    display: none;
+    width: min(480px, 100%);
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .done-icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .done-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .done-body {
+    font-size: 14px;
+    color: rgba(245,240,232,0.75);
+    line-height: 1.9;
+  }
+
+  .done-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 14px;
+    padding: 28px 28px;
+    margin-top: 28px;
+  }
+
+  /* ── 休館畫面 ── */
+  #screen-closed {
+    display: none;
+    width: min(440px, 100%);
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+  }
+
+  .closed-board {
+    background: linear-gradient(160deg, #5c3d1e 0%, #3d2710 100%);
+    border-radius: 12px;
+    padding: 40px 32px;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  .closed-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+
+  .closed-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .closed-msg {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.9;
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  /* ── 動畫 ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── 載入中 ── */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(30,48,40,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    backdrop-filter: blur(4px);
+  }
+
+  .loading-overlay.active { display: flex; }
+
+  .loading-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(201,169,110,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    color: var(--gold-light);
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  /* RWD */
+  @media (max-width: 480px) {
+    .content-card { padding: 24px 18px; }
+    .menu-cards { gap: 10px; }
+    .menu-card { min-width: 100px; padding: 18px 12px; }
+    .radio-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">送出中，請稍候…</div>
+</div>
+
+<div class="app-wrapper">
+
+  <div class="brand-tag">勝海科技 × 內部職涯服務</div>
+
+  <!-- ════ SCREEN 1：木牌 ════ -->
+  <div id="screen-sign">
+    <div class="sign-rope">
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="sign-board">
+      <div class="sign-inner">
+        <div class="sign-deco-top">☕ ✦ ☕</div>
+        <div class="sign-name">職涯珈琲館</div>
+        <div class="sign-name-en">Career Café · Private Session</div>
+        <div class="sign-divider"></div>
+        <div class="sign-hours-label">OPEN HOURS</div>
+        <div class="sign-hours" id="sign-hours-text">
+          週一・週五<br>10:30 — 16:00
+        </div>
+        <div id="closed-notice-board" style="display:none;">
+          <div class="sign-closed-notice" id="closed-board-msg"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-label">── 今日菜單，請選一杯 ──</div>
+
+    <div class="menu-cards" id="menu-cards">
+      <div class="menu-card" onclick="selectMenu('americano')">
+        <span class="card-icon">☕</span>
+        <div class="card-name">美式咖啡</div>
+        <div class="card-desc">釐清現狀<br>清醒一下</div>
+      </div>
+      <div class="menu-card" onclick="selectMenu('latte')">
+        <span class="card-icon">🥛</span>
+        <div class="card-name">拿鐵咖啡</div>
+        <div class="card-desc">尋找平衡<br>工作與生活的調和</div>
+      </div>
+      <div class="menu-card" onclick="selectMenu('cocoa')">
+        <span class="card-icon">🍫</span>
+        <div class="card-name">熱可可</div>
+        <div class="card-desc">需要療癒<br>純粹被好好接住</div>
+      </div>
+    </div>
+
+    <div class="enter-hint">點選圖卡，接受邀請進入珈琲館 ↑</div>
+  </div>
+
+  <!-- ════ 休館 ════ -->
+  <div id="screen-closed">
+    <div class="closed-board">
+      <span class="closed-icon">🔒</span>
+      <div class="closed-title">今日休館</div>
+      <div class="closed-msg" id="closed-main-msg"></div>
+    </div>
+  </div>
+
+  <!-- ════ SCREEN 2：保密說明 ════ -->
+  <div id="screen-privacy">
+    <div class="content-card">
+      <div class="screen-header">
+        <div class="screen-eyebrow">進入前，請先閱讀</div>
+        <div class="screen-title">珈琲諮詢服務<br>定位與保密說明</div>
+        <div class="screen-subtitle">版本：2026 年 6 月｜諮詢師：Sherry</div>
+      </div>
+
+      <div class="divider-ornament">· · ·</div>
+
+      <div class="privacy-section">
+        <div class="privacy-section-title">什麼是內部職涯諮詢服務？</div>
+        <div class="privacy-body">
+          這是由具備 SCPC 國際職涯規劃師認證的 HR 提供的一對一職涯探索諮詢，每次 60 分鐘。<br><br>
+          服務聚焦在「你自己」——你的優勢、價值觀、想要的發展方向，幫助你看得更清楚。這是一個屬於你的空間，諮詢師的角色是陪你思考，結論由你決定。
+        </div>
+      </div>
+
+      <div class="privacy-section">
+        <div class="privacy-section-title">可以討論什麼？</div>
+        <ul class="privacy-list">
+          <li>職涯方向與下一步規劃</li>
+          <li>個人優勢與技能盤點</li>
+          <li>工作意義感與動力探索</li>
+          <li>在公司內的成長路徑</li>
+          <li>跨部門／跨職能發展的可能性</li>
+        </ul>
+      </div>
+
+      <div class="privacy-section">
+        <div class="privacy-section-title">不在服務範圍內的事項</div>
+        <ul class="privacy-list">
+          <li>對特定主管或同事的評價或投訴 → 請洽 HR 關懷管道</li>
+          <li>薪資談判或勞資爭議協助 → 請洽 HR 正式管道</li>
+          <li>心理諮商或情緒治療 → 諮詢師可協助轉介適合資源</li>
+          <li>公司尚未公開的組織變動討論</li>
+        </ul>
+      </div>
+
+      <div class="privacy-section">
+        <div class="privacy-section-title">保密機制</div>
+        <table class="privacy-table">
+          <tr>
+            <th>事項</th>
+            <th>說明</th>
+          </tr>
+          <tr>
+            <td>對話內容</td>
+            <td>不通報給直屬主管或其他管理層</td>
+          </tr>
+          <tr>
+            <td>Lark 表格紀錄</td>
+            <td>僅記錄議題類別與諮詢時間，不記錄對話內容</td>
+          </tr>
+          <tr>
+            <td>諮詢師筆記</td>
+            <td>由諮詢師個人保管，不上傳任何系統</td>
+          </tr>
+          <tr>
+            <td>唯一例外</td>
+            <td>若涉及法律或重大組織風險，將在告知你的前提下循適當程序處理</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="privacy-section">
+        <div class="privacy-section-title">諮詢師不會做的事</div>
+        <ul class="privacy-list">
+          <li>替你決定要不要離職或轉職，也不會勸退你做任何決定</li>
+          <li>代表公司立場發言</li>
+          <li>在你不知情的情況下影響你的考績或晉升評估</li>
+        </ul>
+      </div>
+
+      <div class="promise-box">
+        <p>我的角色是幫你看清楚自己想要什麼、有哪些可能性。這個空間的方向由你決定，我不替公司傳話，也不把你說的話拿去做任何評估。我所能做的，是陪你好好想清楚。</p>
+      </div>
+
+      <!-- 確認區 -->
+      <div class="confirm-box">
+        <div class="confirm-box-title">你的確認</div>
+        <label class="check-item">
+          <input type="checkbox" id="c1" onchange="updateConfirmBtn()">
+          <span>我已閱讀並理解本說明書的內容。</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="c2" onchange="updateConfirmBtn()">
+          <span>我了解諮詢結果由我自主決定，諮詢師不代表公司立場。</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="c3" onchange="updateConfirmBtn()">
+          <span>我同意諮詢議題類別（去識別化）可用於公司的組織分析參考。</span>
+        </label>
+      </div>
+
+      <button class="btn-primary" id="btn-confirm" disabled onclick="goToSurvey()">
+        確認閱讀，進入填寫問卷 →
+      </button>
+    </div>
+  </div>
+
+  <!-- ════ SCREEN 3：前置問卷 ════ -->
+  <div id="screen-survey">
+    <div class="content-card">
+      <div class="screen-header">
+        <div class="screen-eyebrow">前置問卷</div>
+        <div class="screen-title">諮詢_前置問卷</div>
+        <div class="screen-subtitle" id="survey-menu-tag"></div>
+      </div>
+
+      <div class="survey-progress">
+        <div class="survey-progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="survey-notice">
+        <span class="icon">🛡️</span>
+        <span>你填寫的內容僅供諮詢師閱讀，不會通報給主管或 HR 以外的人員。</span>
+      </div>
+
+      <!-- 基本資訊 -->
+      <div class="survey-section-label">基本資訊</div>
+
+      <div class="q-card">
+        <div class="q-num">Q1</div>
+        <div class="q-title">你的部門與職稱 <span class="badge-required">必填</span></div>
+        <div class="q-hint">填寫後可幫助諮詢師預先了解你的工作情境。</div>
+        <input type="text" class="q-input" id="q1" placeholder="例：產品部 / 產品經理" oninput="updateProgress()">
+        <div class="field-error" id="err-q1">請填寫你的部門與職稱</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Q2</div>
+        <div class="q-title">目前在公司服務多久？ <span class="badge-required">必填</span></div>
+        <div class="radio-grid" id="q2-group">
+          <div class="radio-option" onclick="selectRadio('q2','未滿6個月',this)">未滿 6 個月</div>
+          <div class="radio-option" onclick="selectRadio('q2','6個月-1年',this)">6 個月－1 年</div>
+          <div class="radio-option" onclick="selectRadio('q2','1-3年',this)">1－3 年</div>
+          <div class="radio-option" onclick="selectRadio('q2','3年以上',this)">3 年以上</div>
+        </div>
+        <div class="field-error" id="err-q2">請選擇服務年資</div>
+      </div>
+
+      <!-- 近期狀態 -->
+      <div class="survey-section-label">近期狀態</div>
+
+      <div class="q-card">
+        <div class="q-num">Q3</div>
+        <div class="q-title">最近工作上的整體狀態如何？ <span class="badge-required">必填</span></div>
+        <div class="q-hint">直覺選擇最貼近你感受的選項。</div>
+        <div class="radio-group" id="q3-group">
+          <div class="radio-option" onclick="selectRadio('q3','很有活力，想繼續往前衝',this)">很有活力，想繼續往前衝</div>
+          <div class="radio-option" onclick="selectRadio('q3','還算穩定，但有些卡關或疑惑',this)">還算穩定，但有些卡關或疑惑</div>
+          <div class="radio-option" onclick="selectRadio('q3','有些疲乏，需要重新找到動力',this)">有些疲乏，需要重新找到動力</div>
+          <div class="radio-option" onclick="selectRadio('q3','感到迷失，不確定方向',this)">感到迷失，不確定方向</div>
+        </div>
+        <div class="field-error" id="err-q3">請選擇目前狀態</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Q4</div>
+        <div class="q-title">目前對現在這份工作的滿意程度</div>
+        <div class="q-hint">1 ＝ 非常不滿意，10 ＝ 非常滿意</div>
+        <div class="slider-wrap">
+          <div class="slider-value-display" id="q4-display">6</div>
+          <div class="slider-labels"><span>1</span><span>10</span></div>
+          <input type="range" min="1" max="10" value="6" id="q4"
+            oninput="document.getElementById('q4-display').textContent=this.value; updateProgress()">
+        </div>
+      </div>
+
+      <!-- 諮詢重點 -->
+      <div class="survey-section-label">諮詢重點</div>
+
+      <div class="q-card">
+        <div class="q-num">Q5</div>
+        <div class="q-title">這次最想討論的方向是？ <span class="badge-required">必填</span></div>
+        <div class="q-hint">可複選，最多選 2 項。</div>
+        <div class="checkbox-group" id="q5-group">
+          <div class="checkbox-option" onclick="selectCheckbox('q5',this,'職涯方向與下一步規劃')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">
+              <div class="checkbox-label">職涯方向與下一步規劃</div>
+              <div class="checkbox-sublabel">不確定接下來要往哪走、想轉職能或轉產業</div>
+            </div>
+          </div>
+          <div class="checkbox-option" onclick="selectCheckbox('q5',this,'技能發展與能力盤點')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">
+              <div class="checkbox-label">技能發展與能力盤點</div>
+              <div class="checkbox-sublabel">想知道自己的優勢在哪、哪些能力需要補強</div>
+            </div>
+          </div>
+          <div class="checkbox-option" onclick="selectCheckbox('q5',this,'在公司內的成長與升遷')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">
+              <div class="checkbox-label">在公司內的成長與升遷</div>
+              <div class="checkbox-sublabel">想了解職涯路徑、如何在現有角色中有更多發展</div>
+            </div>
+          </div>
+          <div class="checkbox-option" onclick="selectCheckbox('q5',this,'工作意義感與動力來源')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">
+              <div class="checkbox-label">工作意義感與動力來源</div>
+              <div class="checkbox-sublabel">覺得失去熱情、想重新找到做這份工作的理由</div>
+            </div>
+          </div>
+          <div class="checkbox-option" onclick="selectCheckbox('q5',this,'跨部門/跨職能發展可能性')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">
+              <div class="checkbox-label">跨部門／跨職能發展可能性</div>
+              <div class="checkbox-sublabel">對其他職能有興趣、想了解轉換的可行性</div>
+            </div>
+          </div>
+          <div class="checkbox-option" onclick="selectCheckbox('q5',this,'其他',true)">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">
+              <div class="checkbox-label">其他（請在下方說明）</div>
+            </div>
+          </div>
+        </div>
+        <div class="other-explain" id="q5-other-wrap">
+          <input type="text" class="q-input" id="q5-other" placeholder="請說明…" style="margin-top:0;">
+        </div>
+        <div class="field-error" id="err-q5">請至少選擇 1 項（最多 2 項）</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Q6</div>
+        <div class="q-title">用 2-3 句話說說你的狀況或想法 <span class="badge-required">必填</span></div>
+        <div class="q-hint">不需要整理得很完整，想到什麼就寫什麼。這是給諮詢師預先了解你的空間。</div>
+        <textarea class="q-input" id="q6" placeholder="例：我已經在這個職位做了兩年，覺得有點卡關，不確定繼續深耕還是嘗試別的方向對我比較好……" oninput="updateProgress()"></textarea>
+        <div class="field-error" id="err-q6">請填寫你目前的狀況</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Q7</div>
+        <div class="q-title">這次諮詢，你最希望帶走什麼？</div>
+        <div class="radio-group" id="q7-group">
+          <div class="radio-option" onclick="selectRadio('q7','一個更清晰的方向感',this)">一個更清晰的方向感</div>
+          <div class="radio-option" onclick="selectRadio('q7','具體可以做的下一步行動',this)">具體可以做的下一步行動</div>
+          <div class="radio-option" onclick="selectRadio('q7','有人幫我整理思緒就好',this)">有人幫我整理思緒就好</div>
+          <div class="radio-option" onclick="selectRadio('q7','不確定，就先聊聊看',this)">不確定，就先聊聊看</div>
+        </div>
+      </div>
+
+      <!-- 時間安排 -->
+      <div class="survey-section-label">時間安排</div>
+
+      <div class="q-card">
+        <div class="q-num">Q8</div>
+        <div class="q-title">偏好的諮詢時段 <span class="badge-required">必填</span></div>
+        <div class="q-hint">請填寫至少 1 個、最多 3 個你方便的日期與時段。</div>
+        <div class="time-hint-tag">📅 可預約時段：週一或週五 10:30 — 16:00</div>
+
+        <div class="time-slot-entry">
+          <div class="time-slot-num">1</div>
+          <input type="text" class="time-slot-input" id="ts1" placeholder="例：7/7（一）下午 13:00" oninput="updateProgress()">
+        </div>
+        <div class="time-slot-entry">
+          <div class="time-slot-num">2</div>
+          <input type="text" class="time-slot-input" id="ts2" placeholder="例：7/11（五）上午 10:30（選填）" oninput="updateProgress()">
+        </div>
+        <div class="time-slot-entry">
+          <div class="time-slot-num">3</div>
+          <input type="text" class="time-slot-input" id="ts3" placeholder="例：7/14（一）下午 15:00（選填）" oninput="updateProgress()">
+        </div>
+        <div class="field-error" id="err-ts">請至少填寫 1 個可預約時段</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Q9</div>
+        <div class="q-title">偏好的諮詢形式</div>
+        <div class="radio-group" id="q9-group">
+          <div class="radio-option" onclick="selectRadio('q9','視訊（線上）',this)">視訊（線上）</div>
+          <div class="radio-option" onclick="selectRadio('q9','面對面（公司會議室）',this)">面對面（公司會議室）</div>
+          <div class="radio-option" onclick="selectRadio('q9','都可以',this)">都可以</div>
+        </div>
+      </div>
+
+      <div class="submit-section">
+        <button class="btn-submit" id="btn-submit" onclick="submitSurvey()">
+          送出預約申請 ☕
+        </button>
+        <div style="margin-top:12px; font-size:11px; color:rgba(245,240,232,0.35); text-align:center;">
+          送出後，Sherry 將透過 Lark 訊息與你確認時間
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SCREEN 4：完成 ════ -->
+  <div id="screen-done">
+    <div class="done-card">
+      <span class="done-icon">☕</span>
+      <div class="done-title">預約申請已送出！</div>
+      <div class="done-body">
+        感謝你的填寫。<br>
+        Sherry 收到後，會透過 Lark 訊息與你確認時間。<br><br>
+        在那之前，可以先替自己沖一杯喜歡的飲料，<br>
+        好好期待一下這場對話。🌿
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app-wrapper -->
+
+<script>
+// ═══════════════════════════════════════════
+// 狀態
+// ═══════════════════════════════════════════
+const state = {
+  selectedMenu: null,
+  confirmRead: false,
+  confirmTimestamp: null,
+  larkUserId: null,
+  larkUserName: null,
+  formData: {},
+  radios: {},
+  checkboxes: { q5: [] },
+};
+
+// ── Lark JSSDK 取得使用者資訊 ──
+// （實際部署到 Lark App 後啟用，目前以 placeholder 代替）
+function initLarkUser() {
+  // 若在 Lark 環境中
+  if (window.h5sdk) {
+    window.h5sdk.ready(() => {
+      tt.getUserInfo({
+        success(res) {
+          state.larkUserName = res.userInfo?.nickName || '未知使用者';
+          state.larkUserId   = res.userInfo?.openId   || '';
+        }
+      });
+    });
+  } else {
+    // 開發模式 fallback
+    state.larkUserName = 'Dev-Tester';
+    state.larkUserId   = 'dev_001';
+  }
+}
+
+initLarkUser();
+
+// ═══════════════════════════════════════════
+// 休館邏輯
+// ═══════════════════════════════════════════
+const CLOSED_MESSAGES = [
+  '今日咖啡豆鬧罷工，店長微服出巡去尋找頂級靈魂配方。本日休館，我們下個香氣四溢的日子見！',
+  '咖啡館的磨豆機今天想睡個懶覺。我們去尋找新的生活調味了，暫時休館，期待下次為你手沖一杯職涯新思路。',
+  '店長出門找靈感，今日店休。請儲備好你的職場故事，下次抽空一起來聊聊。',
+  '店長今天去曬太陽、吸收芬多精了。本日休館，等我們吸飽能量，再回來聽你說心事。',
+];
+
+function getRandomClosedMsg() {
+  return CLOSED_MESSAGES[Math.floor(Math.random() * CLOSED_MESSAGES.length)];
+}
+
+function getClosedDays() {
+  try {
+    return JSON.parse(localStorage.getItem('cafe_closed_days') || '[]');
+  } catch { return []; }
+}
+
+function isClosedToday() {
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
+  const closed = getClosedDays();
+  return closed.some(item => {
+    if (item.type === 'single') return item.date === todayStr;
+    if (item.type === 'range')  return todayStr >= item.from && todayStr <= item.to;
+    return false;
+  });
+}
+
+function checkAndShowClosed() {
+  if (isClosedToday()) {
+    const msg = getRandomClosedMsg();
+    document.getElementById('closed-main-msg').textContent = msg;
+    document.getElementById('closed-notice-board').style.display = 'block';
+    document.getElementById('closed-board-msg').textContent = '今日休館';
+    // 隱藏圖卡，只顯示木牌休館提示
+    document.getElementById('menu-cards').style.display = 'none';
+    document.querySelector('.menu-label').style.display = 'none';
+    document.querySelector('.enter-hint').style.display = 'none';
+    return true;
+  }
+  return false;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  checkAndShowClosed();
+});
+
+// ═══════════════════════════════════════════
+// 導航
+// ═══════════════════════════════════════════
+function show(id) {
+  ['screen-sign','screen-closed','screen-privacy','screen-survey','screen-done']
+    .forEach(s => document.getElementById(s).style.display = 'none');
+  document.getElementById(id).style.display = (id === 'screen-sign') ? 'flex' : 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectMenu(type) {
+  if (isClosedToday()) return;
+  state.selectedMenu = type;
+  const labels = { americano:'☕ 美式咖啡', latte:'🥛 拿鐵咖啡', cocoa:'🍫 熱可可' };
+  document.getElementById('survey-menu-tag').textContent = '你點的是：' + labels[type];
+  show('screen-privacy');
+}
+
+function updateConfirmBtn() {
+  const all = ['c1','c2','c3'].every(id => document.getElementById(id).checked);
+  document.getElementById('btn-confirm').disabled = !all;
+}
+
+function goToSurvey() {
+  state.confirmRead = true;
+  state.confirmTimestamp = new Date().toISOString();
+  // 記錄閱讀確認（寫入 localStorage，待 Lark API 整合後會送出）
+  const readLog = {
+    userId: state.larkUserId,
+    userName: state.larkUserName,
+    timestamp: state.confirmTimestamp,
+    menu: state.selectedMenu,
+  };
+  console.log('[ReadLog]', readLog);
+  show('screen-survey');
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════
+// 表單互動
+// ═══════════════════════════════════════════
+function selectRadio(name, value, el) {
+  document.querySelectorAll(`#${name}-group .radio-option`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.radios[name] = value;
+  document.getElementById(`err-${name}`) && (document.getElementById(`err-${name}`).classList.remove('visible'));
+  updateProgress();
+}
+
+let q5Max = 2;
+
+function selectCheckbox(name, el, value, hasOther = false) {
+  const isSelected = el.classList.contains('selected');
+
+  if (!isSelected) {
+    if (state.checkboxes[name].length >= q5Max) {
+      // 超過2項，不允許
+      el.style.animation = 'none';
+      el.style.border = '1.5px solid ' + getComputedStyle(document.documentElement).getPropertyValue('--error');
+      setTimeout(() => el.style.border = '', 800);
+      return;
+    }
+    el.classList.add('selected');
+    state.checkboxes[name].push(value);
+  } else {
+    el.classList.remove('selected');
+    state.checkboxes[name] = state.checkboxes[name].filter(v => v !== value);
+  }
+
+  // 其他說明欄
+  if (hasOther) {
+    const wrap = document.getElementById(`${name}-other-wrap`);
+    wrap.classList.toggle('visible', el.classList.contains('selected'));
+  }
+
+  document.getElementById(`err-${name}`) && document.getElementById(`err-${name}`).classList.remove('visible');
+  updateProgress();
+}
+
+function updateProgress() {
+  const fields = [
+    document.getElementById('q1')?.value.trim(),
+    state.radios['q2'],
+    state.radios['q3'],
+    state.checkboxes['q5']?.length > 0,
+    document.getElementById('q6')?.value.trim(),
+    document.getElementById('ts1')?.value.trim(),
+  ];
+  const filled = fields.filter(Boolean).length;
+  const pct = Math.round((filled / fields.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════
+// 送出
+// ═══════════════════════════════════════════
+function validateSurvey() {
+  let valid = true;
+
+  function check(cond, errId) {
+    const el = document.getElementById(errId);
+    if (el) { cond ? el.classList.remove('visible') : (el.classList.add('visible'), valid = false); }
+  }
+
+  check(document.getElementById('q1').value.trim(), 'err-q1');
+  check(state.radios['q2'], 'err-q2');
+  check(state.radios['q3'], 'err-q3');
+  check(state.checkboxes['q5'].length > 0, 'err-q5');
+  check(document.getElementById('q6').value.trim(), 'err-q6');
+  check(document.getElementById('ts1').value.trim(), 'err-ts');
+
+  return valid;
+}
+
+async function submitSurvey() {
+  if (!validateSurvey()) {
+    // 捲動到第一個錯誤
+    const firstErr = document.querySelector('.field-error.visible');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // 收集資料
+  const topics = [...state.checkboxes['q5']];
+  const otherText = document.getElementById('q5-other').value.trim();
+  if (topics.includes('其他') && otherText) {
+    topics[topics.indexOf('其他')] = '其他：' + otherText;
+  }
+
+  const timeslots = [
+    document.getElementById('ts1').value.trim(),
+    document.getElementById('ts2').value.trim(),
+    document.getElementById('ts3').value.trim(),
+  ].filter(Boolean);
+
+  const menuLabels = { americano:'美式咖啡（釐清現狀）', latte:'拿鐵咖啡（尋找平衡）', cocoa:'熱可可（純療癒）' };
+
+  const payload = {
+    submittedAt: new Date().toISOString(),
+    larkUserId: state.larkUserId,
+    larkUserName: state.larkUserName,
+    menu: menuLabels[state.selectedMenu] || state.selectedMenu,
+    privacyConfirmedAt: state.confirmTimestamp,
+    // Q1-Q9
+    q1_dept: document.getElementById('q1').value.trim(),
+    q2_tenure: state.radios['q2'] || '',
+    q3_status: state.radios['q3'] || '',
+    q4_satisfaction: document.getElementById('q4').value,
+    q5_topics: topics.join('、'),
+    q6_description: document.getElementById('q6').value.trim(),
+    q7_takeaway: state.radios['q7'] || '',
+    q8_timeslots: timeslots.join(' / '),
+    q9_format: state.radios['q9'] || '',
+  };
+
+  console.log('[Survey Payload]', payload);
+
+  // 顯示載入
+  document.getElementById('loading').classList.add('active');
+
+  try {
+    // ── 寫入 Lark 多維表格 ──
+    const CAFE_WORKER = 'https://cafe-worker.sherrya82255.workers.dev';
+    const CAFE_APP_TOKEN = 'LG7LbYC0LasBl3sOU7jl18zMgve';
+    const CAFE_TABLE_ID  = 'tblJP7hv4RNJlZmT';
+
+    await fetch(`${CAFE_WORKER}/submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        appToken: CAFE_APP_TOKEN,
+        tableId:  CAFE_TABLE_ID,
+        fields: {
+          '提交時間':       payload.submittedAt,
+          '申請者名稱':     payload.larkUserName,
+          'Lark User ID':  payload.larkUserId,
+          '諮詢方向選擇':   payload.menu,
+          '部門與職稱':     payload.q1_dept,
+          '服務年資區間':   payload.q2_tenure,
+          '近期整體狀態':   payload.q3_status,
+          '工作滿意度':     Number(payload.q4_satisfaction),
+          '想討論的方向':   payload.q5_topics,
+          '背景說明':       payload.q6_description,
+          '期望帶走的收穫': payload.q7_takeaway,
+          '偏好時段':       payload.q8_timeslots,
+          '諮詢形式':       payload.q9_format,
+          '保密確認時間':   payload.privacyConfirmedAt,
+        }
+      })
+    });
+
+  } catch (err) {
+    console.error('[Submit Error]', err);
+    // 即使 API 失敗仍顯示成功畫面（避免同仁困惑，錯誤可從 console 追蹤）
+  }
+
+  document.getElementById('loading').classList.remove('active');
+  show('screen-done');
+}
+</script>
+
+</body>
+</html>

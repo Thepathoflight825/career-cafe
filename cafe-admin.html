@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>職涯珈琲館｜店長後台</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1e3028;
+    --forest-mid: #2a4035;
+    --forest-light: #3a5545;
+    --gold: #c9a96e;
+    --gold-light: #e2c99a;
+    --cream: #f5f0e8;
+    --parchment: #ede5d4;
+    --espresso: #2c1a0e;
+    --latte: #8b6f47;
+    --mist: #f9f7f3;
+    --text-dark: #1a1208;
+    --text-mid: #4a3b28;
+    --text-light: #7a6a55;
+    --border: #d4c9b0;
+    --success: #4a7c59;
+    --error: #8b3a2a;
+    --error-bg: #fde8e4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--forest);
+    min-height: 100vh;
+    color: var(--text-dark);
+  }
+
+  /* ── 登入畫面 ── */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .login-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 16px;
+    padding: 40px 36px;
+    width: min(380px, 100%);
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+
+  .login-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+
+  .login-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  .login-subtitle {
+    font-size: 12px;
+    color: rgba(245,240,232,0.4);
+    margin-bottom: 28px;
+    letter-spacing: 0.05em;
+  }
+
+  .login-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 8px;
+    color: var(--cream);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    outline: none;
+    text-align: center;
+    letter-spacing: 0.2em;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
+  }
+
+  .login-input:focus { border-color: var(--gold); }
+
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--forest-light), var(--forest-mid));
+    color: var(--gold-light);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: opacity 0.2s;
+  }
+
+  .login-btn:hover { opacity: 0.85; }
+
+  .login-error {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #e88;
+    display: none;
+  }
+
+  /* ── 後台主體 ── */
+  #admin-screen { display: none; }
+
+  .admin-header {
+    background: linear-gradient(135deg, var(--espresso) 0%, #1a0f05 100%);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  }
+
+  .admin-header-icon { font-size: 24px; }
+
+  .admin-header-title {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  .admin-header-sub {
+    font-size: 11px;
+    color: rgba(201,169,110,0.5);
+    margin-left: auto;
+    letter-spacing: 0.05em;
+  }
+
+  .admin-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  .section-card {
+    background: var(--mist);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  }
+
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-subtitle {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  /* 狀態指示燈 */
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+
+  .status-row.open-status {
+    background: rgba(74,124,89,0.1);
+    border: 1px solid rgba(74,124,89,0.25);
+  }
+
+  .status-row.closed-status {
+    background: rgba(139,58,42,0.1);
+    border: 1px solid rgba(139,58,42,0.25);
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .open-status .status-dot {
+    background: var(--success);
+    box-shadow: 0 0 0 3px rgba(74,124,89,0.2);
+    animation: pulse 2s infinite;
+  }
+
+  .closed-status .status-dot { background: var(--error); }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(74,124,89,0.2); }
+    50% { box-shadow: 0 0 0 6px rgba(74,124,89,0.1); }
+  }
+
+  .status-text { font-size: 14px; font-weight: 500; color: var(--text-dark); }
+  .status-until { font-size: 11px; color: var(--text-light); margin-left: auto; }
+
+  /* 設定表單 */
+  .form-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .form-group { flex: 1; min-width: 140px; }
+
+  .form-label {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus { border-color: var(--forest); }
+
+  .btn-action {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-close-day {
+    background: var(--error);
+    color: white;
+  }
+
+  .btn-close-day:hover { background: #7a2e1e; }
+
+  .btn-open-day {
+    background: var(--success);
+    color: white;
+  }
+
+  .btn-open-day:hover { background: #3d6b4a; }
+
+  .btn-secondary {
+    background: var(--parchment);
+    color: var(--text-mid);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover { background: var(--border); }
+
+  /* 休館列表 */
+  .closed-list { margin-top: 20px; }
+
+  .closed-list-title {
+    font-size: 12px;
+    color: var(--text-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .closed-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--parchment);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    gap: 12px;
+  }
+
+  .closed-item-icon { font-size: 14px; }
+
+  .closed-item-info { flex: 1; }
+
+  .closed-item-date { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+  .closed-item-note { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+  .closed-item-del {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--error);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .closed-item-del:hover { background: var(--error-bg); border-color: var(--error); }
+
+  .empty-state {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-light);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* 分隔 */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  /* 今日快速關閉 */
+  .quick-close-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: rgba(139,58,42,0.06);
+    border: 1px solid rgba(139,58,42,0.15);
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+
+  .quick-close-text {
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .quick-close-text strong { color: var(--espresso); }
+
+  /* 標籤 */
+  .type-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-single {
+    background: rgba(139,58,42,0.1);
+    color: var(--error);
+  }
+
+  .badge-range {
+    background: rgba(74,124,89,0.1);
+    color: var(--success);
+  }
+
+  /* 訊息 toast */
+  #toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--forest);
+    color: var(--gold-light);
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-size: 13px;
+    border: 1px solid rgba(201,169,110,0.3);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+  }
+
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 480px) {
+    .admin-body { padding: 20px 16px; }
+    .section-card { padding: 20px 16px; }
+    .form-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ 登入 ═══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-icon">🗝️</div>
+    <div class="login-title">店長專屬後台</div>
+    <div class="login-subtitle">職涯珈琲館 管理中心</div>
+    <input type="password" class="login-input" id="admin-pw" placeholder="請輸入管理密碼"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" onclick="doLogin()">進入後台</button>
+    <div class="login-error" id="login-err">密碼錯誤，請再試一次</div>
+  </div>
+</div>
+
+<!-- ═══ 後台 ═══ -->
+<div id="admin-screen">
+  <div class="admin-header">
+    <span class="admin-header-icon">☕</span>
+    <span class="admin-header-title">職涯珈琲館｜店長後台</span>
+    <span class="admin-header-sub">Welcome, Sherry ✦</span>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- 今日營業狀態 -->
+    <div class="section-card">
+      <div class="section-title">🪧 今日營業狀態</div>
+      <div class="section-subtitle">目前的開館／休館狀態，同仁開啟頁面時會即時反映。</div>
+
+      <div id="today-status-row"></div>
+
+      <div class="quick-close-row">
+        <div class="quick-close-text">
+          <strong>快速操作：</strong> 今日（<span id="today-date-label"></span>）
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-action btn-close-day" onclick="quickCloseToday()">設為休館</button>
+          <button class="btn-action btn-open-day" onclick="quickOpenToday()">恢復開館</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 設定休館日 -->
+    <div class="section-card">
+      <div class="section-title">📅 新增休館設定</div>
+      <div class="section-subtitle">可設定單日或連續區間。設定後同仁進入珈琲館將看到休館提示。</div>
+
+      <!-- 單日 -->
+      <div style="font-size:12px; color:var(--latte); font-weight:500; letter-spacing:0.05em; margin-bottom:10px;">
+        ▸ 單日休館
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">休館日期</label>
+          <input type="date" class="form-input" id="close-single-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">備註（選填）</label>
+          <input type="text" class="form-input" id="close-single-note" placeholder="例：Sherry 外訓">
+        </div>
+        <button class="btn-action btn-close-day" onclick="addSingleClose()" style="margin-top:22px;">
+          + 新增
+        </button>
+      </div>
+
+      <hr class="divider">
+
+      <!-- 區間 -->
+      <div style="font-size:12px; color:var(--latte); font-weight:500; letter-spacing:0.05em; margin-bottom:10px;">
+        ▸ 連續區間休館
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">開始日期</label>
+          <input type="date" class="form-input" id="close-from">
+        </div>
+        <div class="form-group">
+          <label class="form-label">結束日期</label>
+          <input type="date" class="form-input" id="close-to">
+        </div>
+        <div class="form-group">
+          <label class="form-label">備註（選填）</label>
+          <input type="text" class="form-input" id="close-range-note" placeholder="例：年度休假">
+        </div>
+        <button class="btn-action btn-close-day" onclick="addRangeClose()" style="margin-top:22px;">
+          + 新增
+        </button>
+      </div>
+
+      <!-- 休館清單 -->
+      <div class="closed-list">
+        <div class="closed-list-title">📋 目前休館設定清單</div>
+        <div id="closed-list-container"></div>
+      </div>
+    </div>
+
+    <!-- 預約申請一覽（說明）-->
+    <div class="section-card">
+      <div class="section-title">📬 諮詢預約記錄</div>
+      <div class="section-subtitle">
+        所有同仁填寫的前置問卷，都會自動存入 Lark 多維表格，請至 Lark Base 查看完整記錄。<br>
+        系統也會在有新申請時發送 Lark 訊息通知你。
+      </div>
+      <div style="padding: 16px; background: var(--parchment); border-radius: 8px; font-size:13px; color:var(--text-mid); line-height:1.8;">
+        📌 Lark Base 建立完成後，請在 <code>cafe.html</code> 中填入：<br>
+        &nbsp;&nbsp;• <code>CAFE_APP_TOKEN</code>（Base App Token）<br>
+        &nbsp;&nbsp;• <code>CAFE_TABLE_ID</code>（諮詢記錄的 Table ID）<br>
+        &nbsp;&nbsp;• <code>SHERRY_OPEN_ID</code>（Sherry 的 Lark open_id）
+      </div>
+    </div>
+
+  </div><!-- /admin-body -->
+</div><!-- /admin-screen -->
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// 密碼（請在部署後修改為安全密碼）
+// ═══════════════════════════════════════════
+const ADMIN_PW_HASH = 'sherry2026cafe'; // TODO: 替換為 hash 後的密碼
+
+function doLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PW_HASH) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+    document.getElementById('admin-pw').value = '';
+  }
+}
+
+// ═══════════════════════════════════════════
+// 休館資料（存 localStorage）
+// ═══════════════════════════════════════════
+function getClosedDays() {
+  try { return JSON.parse(localStorage.getItem('cafe_closed_days') || '[]'); } catch { return []; }
+}
+
+function saveClosedDays(arr) {
+  localStorage.setItem('cafe_closed_days', JSON.stringify(arr));
+}
+
+function todayStr() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function isClosedOn(dateStr) {
+  return getClosedDays().some(item => {
+    if (item.type === 'single') return item.date === dateStr;
+    if (item.type === 'range')  return dateStr >= item.from && dateStr <= item.to;
+    return false;
+  });
+}
+
+// ═══════════════════════════════════════════
+// 初始化後台
+// ═══════════════════════════════════════════
+function initAdmin() {
+  // 設定今日日期預設
+  const today = todayStr();
+  document.getElementById('close-single-date').value = today;
+  document.getElementById('close-from').value = today;
+  document.getElementById('close-to').value = today;
+  document.getElementById('today-date-label').textContent = formatDate(today);
+
+  renderStatus();
+  renderClosedList();
+}
+
+function formatDate(str) {
+  const d = new Date(str + 'T00:00:00');
+  const w = ['日','一','二','三','四','五','六'];
+  return `${d.getMonth()+1}/${d.getDate()}（週${w[d.getDay()]}）`;
+}
+
+function renderStatus() {
+  const today = todayStr();
+  const closed = isClosedOn(today);
+  const el = document.getElementById('today-status-row');
+  if (closed) {
+    el.innerHTML = `
+      <div class="status-row closed-status">
+        <div class="status-dot"></div>
+        <div class="status-text">🔒 今日休館</div>
+        <div class="status-until">${formatDate(today)}</div>
+      </div>`;
+  } else {
+    el.innerHTML = `
+      <div class="status-row open-status">
+        <div class="status-dot"></div>
+        <div class="status-text">✅ 正常開館中</div>
+        <div class="status-until">週一・週五 10:30 — 16:00</div>
+      </div>`;
+  }
+}
+
+function renderClosedList() {
+  const list = getClosedDays();
+  const el = document.getElementById('closed-list-container');
+  if (list.length === 0) {
+    el.innerHTML = '<div class="empty-state">目前無休館設定</div>';
+    return;
+  }
+  el.innerHTML = list.map((item, i) => {
+    let dateLabel, badge;
+    if (item.type === 'single') {
+      dateLabel = formatDate(item.date);
+      badge = '<span class="type-badge badge-single">單日</span>';
+    } else {
+      dateLabel = `${formatDate(item.from)} ～ ${formatDate(item.to)}`;
+      badge = '<span class="type-badge badge-range">區間</span>';
+    }
+    return `
+      <div class="closed-item">
+        <span class="closed-item-icon">🔒</span>
+        <div class="closed-item-info">
+          <div class="closed-item-date">${dateLabel} ${badge}</div>
+          ${item.note ? `<div class="closed-item-note">${item.note}</div>` : ''}
+        </div>
+        <button class="closed-item-del" onclick="removeClose(${i})">刪除</button>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// 操作
+// ═══════════════════════════════════════════
+function quickCloseToday() {
+  const today = todayStr();
+  if (isClosedOn(today)) { showToast('今日已設為休館'); return; }
+  const arr = getClosedDays();
+  arr.push({ type: 'single', date: today, note: '（快速設定）' });
+  saveClosedDays(arr);
+  renderStatus();
+  renderClosedList();
+  showToast('✓ 已設定今日休館');
+}
+
+function quickOpenToday() {
+  const today = todayStr();
+  const arr = getClosedDays().filter(item => {
+    if (item.type === 'single') return item.date !== today;
+    return true; // 區間不在這裡刪
+  });
+  saveClosedDays(arr);
+  renderStatus();
+  renderClosedList();
+  showToast('✓ 今日已恢復開館');
+}
+
+function addSingleClose() {
+  const date = document.getElementById('close-single-date').value;
+  const note = document.getElementById('close-single-note').value.trim();
+  if (!date) { showToast('請選擇日期', true); return; }
+  const arr = getClosedDays();
+  arr.push({ type: 'single', date, note });
+  saveClosedDays(arr);
+  document.getElementById('close-single-note').value = '';
+  renderStatus();
+  renderClosedList();
+  showToast('✓ 已新增休館日：' + formatDate(date));
+}
+
+function addRangeClose() {
+  const from = document.getElementById('close-from').value;
+  const to   = document.getElementById('close-to').value;
+  const note = document.getElementById('close-range-note').value.trim();
+  if (!from || !to) { showToast('請選擇區間日期', true); return; }
+  if (from > to) { showToast('結束日期需在開始日期之後', true); return; }
+  const arr = getClosedDays();
+  arr.push({ type: 'range', from, to, note });
+  saveClosedDays(arr);
+  document.getElementById('close-range-note').value = '';
+  renderStatus();
+  renderClosedList();
+  showToast(`✓ 已新增休館區間：${formatDate(from)} ～ ${formatDate(to)}`);
+}
+
+function removeClose(idx) {
+  const arr = getClosedDays();
+  arr.splice(idx, 1);
+  saveClosedDays(arr);
+  renderStatus();
+  renderClosedList();
+  showToast('已刪除該休館設定');
+}
+
+// ═══════════════════════════════════════════
+// Toast
+// ═══════════════════════════════════════════
+let toastTimer;
+function showToast(msg, isErr = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isErr ? '#5c2a1e' : 'var(--forest)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+
+</body>
+</html>
