@@ -509,18 +509,18 @@
   .survey-notice {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
     background: rgba(201,169,110,0.08);
-    border: 1px solid rgba(201,169,110,0.2);
+    border: 1px solid rgba(201,169,110,0.25);
     border-radius: 8px;
-    padding: 12px 14px;
+    padding: 14px 16px;
     margin-bottom: 20px;
-    font-size: 12px;
-    color: var(--gold-light);
+    font-size: 13px;
+    color: #d4b88a;
     line-height: 1.7;
   }
 
-  .survey-notice .icon { font-size: 14px; flex-shrink: 0; }
+  .survey-notice .icon { font-size: 22px; flex-shrink: 0; line-height: 1.4; }
 
   .survey-section-label {
     font-size: 10px;
@@ -1669,7 +1669,7 @@
 
       <div class="q-card">
         <div class="q-num">Q4</div>
-        <div class="q-title">目前對現在這份工作的滿意程度</div>
+        <div class="q-title">目前對現在這份工作的滿意程度 <span class="badge-required">必填</span></div>
         <div class="q-hint">1 ＝ 非常不滿意，10 ＝ 非常滿意</div>
         <div class="slider-wrap">
           <div class="slider-value-display" id="q4-display">6</div>
@@ -1745,13 +1745,14 @@
 
       <div class="q-card">
         <div class="q-num">Q7</div>
-        <div class="q-title">這次諮詢，你最希望帶走什麼？</div>
+        <div class="q-title">這次諮詢，你最希望帶走什麼？ <span class="badge-required">必填</span></div>
         <div class="radio-group" id="q7-group">
           <div class="radio-option" onclick="selectRadio('q7','一個更清晰的方向感',this)">一個更清晰的方向感</div>
           <div class="radio-option" onclick="selectRadio('q7','具體可以做的下一步行動',this)">具體可以做的下一步行動</div>
           <div class="radio-option" onclick="selectRadio('q7','有人幫我整理思緒就好',this)">有人幫我整理思緒就好</div>
           <div class="radio-option" onclick="selectRadio('q7','不確定，就先聊聊看',this)">不確定，就先聊聊看</div>
         </div>
+        <div class="field-error" id="err-q7">請選擇這次諮詢最希望帶走的收穫</div>
       </div>
 
       <!-- 時間安排 -->
@@ -1780,12 +1781,13 @@
 
       <div class="q-card">
         <div class="q-num">Q9</div>
-        <div class="q-title">偏好的諮詢形式</div>
+        <div class="q-title">偏好的諮詢形式 <span class="badge-required">必填</span></div>
         <div class="radio-group" id="q9-group">
           <div class="radio-option" onclick="selectRadio('q9','視訊（線上）',this)">視訊（線上）</div>
           <div class="radio-option" onclick="selectRadio('q9','面對面（公司會議室）',this)">面對面（公司會議室）</div>
           <div class="radio-option" onclick="selectRadio('q9','都可以',this)">都可以</div>
         </div>
+        <div class="field-error" id="err-q9">請選擇偏好的諮詢形式</div>
       </div>
 
       <div class="submit-section">
@@ -2087,7 +2089,9 @@ function validateSurvey() {
   check(state.radios['q3'], 'err-q3');
   check(state.checkboxes['q5'].length > 0, 'err-q5');
   check(document.getElementById('q6').value.trim(), 'err-q6');
+  check(state.radios['q7'], 'err-q7');
   check(document.getElementById('ts1').value.trim(), 'err-ts');
+  check(state.radios['q9'], 'err-q9');
 
   return valid;
 }
