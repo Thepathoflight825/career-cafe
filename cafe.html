@@ -951,6 +951,479 @@
     .menu-card { min-width: 100px; padding: 18px 12px; }
     .radio-grid { grid-template-columns: 1fr; }
   }
+
+  /* ══════════════════════════════════════
+     VISION BOARD — 慕斯蛋糕圖卡特殊樣式
+  ══════════════════════════════════════ */
+  .menu-card--vision {
+    border-color: rgba(201,169,110,0.45);
+    background: rgba(201,169,110,0.07);
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-card--vision::after {
+    content: '✦';
+    position: absolute;
+    top: 6px; right: 8px;
+    font-size: 9px;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+  .menu-card--vision:hover {
+    border-color: rgba(201,169,110,0.7);
+    background: rgba(201,169,110,0.15);
+  }
+
+  /* ══════════════════════════════════════
+     VISION BOARD — 全域基礎
+  ══════════════════════════════════════ */
+  :root {
+    --vis-bg: #f3efe8;
+    --vis-text: #2e2e2e;
+    --vis-text-mid: #5a5243;
+    --vis-text-soft: #8a7f72;
+    --vis-cream: #faf7f2;
+    --vis-border: #d8d0c4;
+    --vis-accent: #3d4a56;
+    --vis-accent2: #c9a96e;
+    --vis-btn: #2c3540;
+    --vis-btn-text: #f5f0e8;
+    --vis-selected: #2c3540;
+    --vis-selected-text: #ffffff;
+  }
+
+  /* ── Vision Intro ── */
+  .vision-intro-wrap {
+    background: var(--vis-bg);
+    border-radius: 20px;
+    padding: 60px 40px 50px;
+    text-align: center;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .vision-supertitle {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--vis-text-soft);
+    margin-bottom: 28px;
+  }
+  .vision-year-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(48px, 10vw, 80px);
+    font-weight: 300;
+    color: var(--vis-accent);
+    letter-spacing: 0.18em;
+    line-height: 1.1;
+    margin-bottom: 28px;
+  }
+  .vision-intro-desc {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    color: var(--vis-text-mid);
+    line-height: 2;
+    margin-bottom: 56px;
+  }
+  .vision-name-section {
+    width: 100%;
+    max-width: 440px;
+    margin-bottom: 48px;
+  }
+  .vision-name-label {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--vis-accent);
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+  .vision-name-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid var(--vis-accent);
+    background: transparent;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    color: var(--vis-text);
+    padding: 8px 4px;
+    text-align: center;
+    outline: none;
+    letter-spacing: 0.1em;
+  }
+  .vision-name-input::placeholder { color: var(--vis-border); }
+
+  /* ── Vision Button ── */
+  .vision-btn {
+    background: var(--vis-btn);
+    color: var(--vis-btn-text);
+    border: none;
+    border-radius: 100px;
+    padding: 18px 56px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 32px;
+    min-width: 280px;
+  }
+  .vision-btn:disabled {
+    background: #c5bfb8;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  .vision-btn:not(:disabled):hover {
+    background: #1a2530;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .vision-btn--outline {
+    background: transparent;
+    color: var(--vis-accent);
+    border: 1.5px solid var(--vis-accent);
+  }
+  .vision-btn--outline:not(:disabled):hover {
+    background: var(--vis-accent);
+    color: white;
+  }
+
+  /* ── Vision Section Layout ── */
+  #screen-vision-essence,
+  #screen-vision-refine,
+  #screen-vision-goals,
+  #screen-vision-priority,
+  #screen-vision-result {
+    background: var(--vis-bg);
+    border-radius: 20px;
+    padding: 52px 32px 52px;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .vision-section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--vis-accent);
+    letter-spacing: 0.25em;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .vision-section-sub {
+    font-size: 14px;
+    color: var(--vis-text-soft);
+    letter-spacing: 0.06em;
+    margin-bottom: 40px;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* ── Keyword Grid ── */
+  .vision-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    max-width: 720px;
+    margin-bottom: 16px;
+  }
+  .vision-keywords--refine {
+    max-width: 560px;
+    gap: 14px;
+  }
+  .vk-chip {
+    background: var(--vis-cream);
+    border: 1.5px solid var(--vis-border);
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: var(--vis-text-mid);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    user-select: none;
+    white-space: nowrap;
+  }
+  .vision-keywords--refine .vk-chip {
+    font-size: 17px;
+    padding: 14px 28px;
+    border-radius: 16px;
+  }
+  .vk-chip:hover:not(.vk-disabled) {
+    border-color: var(--vis-accent2);
+    color: var(--vis-accent);
+    transform: translateY(-2px);
+  }
+  .vk-chip.vk-selected {
+    background: var(--vis-selected);
+    color: var(--vis-selected-text);
+    border-color: var(--vis-selected);
+    font-weight: 500;
+  }
+  .vk-chip.vk-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── Goals List ── */
+  .vision-core-tags {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    color: var(--vis-accent);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-decoration: underline;
+    text-decoration-color: rgba(201,169,110,0.5);
+    text-underline-offset: 5px;
+  }
+  .vision-blessing-box {
+    background: rgba(255,255,255,0.5);
+    border-left: 3px solid var(--vis-accent2);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    color: var(--vis-text-mid);
+    line-height: 1.9;
+    font-style: italic;
+    text-align: center;
+    position: relative;
+    width: 100%;
+  }
+  .vision-blessing-box::before {
+    content: '"';
+    font-size: 48px;
+    color: var(--vis-accent2);
+    opacity: 0.4;
+    position: absolute;
+    top: -8px; left: 12px;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .vision-blessing-box::after {
+    content: '"';
+    font-size: 48px;
+    color: var(--vis-accent2);
+    opacity: 0.4;
+    position: absolute;
+    bottom: -24px; right: 12px;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .vision-goals-instruction {
+    font-size: 14px;
+    color: var(--vis-text-soft);
+    text-align: center;
+    margin-bottom: 28px;
+    line-height: 1.8;
+  }
+  .vision-goals-hint { font-size: 12px; }
+  .vision-goals-list { width: 100%; }
+  .vision-goal-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--vis-border);
+  }
+  .vision-goal-num {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    color: var(--vis-text-soft);
+    min-width: 24px;
+  }
+  .vision-goal-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--vis-accent);
+    outline: none;
+    padding: 2px 0;
+    letter-spacing: 0.03em;
+  }
+  .vision-goal-input::placeholder { color: var(--vis-border); font-weight: 300; font-size: 14px; }
+
+  /* ── Priority Screen ── */
+  .vision-breathe-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    color: var(--vis-accent);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+  .vision-priority-prompt {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--vis-text-mid);
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
+  }
+  .vision-priority-sub {
+    font-size: 13px;
+    color: var(--vis-text-soft);
+    text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: 0.08em;
+  }
+  .vision-priority-list { width: 100%; max-width: 540px; }
+  .vision-priority-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--vis-cream);
+    border: 1.5px solid var(--vis-border);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .vision-priority-item.vp-selected {
+    background: var(--vis-selected);
+    border-color: var(--vis-selected);
+  }
+  .vision-priority-item.vp-selected .vp-text { color: white; }
+  .vision-priority-item.vp-selected .vp-dot { background: white; }
+  .vp-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--vis-border);
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .vp-text {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    color: var(--vis-text-mid);
+    line-height: 1.5;
+  }
+
+  /* ── Result Card ── */
+  .vision-result-card {
+    background: white;
+    border-radius: 20px;
+    padding: 44px 40px;
+    width: 100%;
+    max-width: 540px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.1);
+    margin-bottom: 32px;
+  }
+  .vr-manifestation-tag {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .vr-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 40px;
+    font-weight: 300;
+    text-align: center;
+    color: var(--vis-accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 40px;
+  }
+  .vr-essences-tag {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: #aaa;
+    margin-bottom: 12px;
+  }
+  .vr-essences {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .vr-essence-item {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    color: var(--vis-accent);
+    letter-spacing: 0.08em;
+  }
+  .vr-blessing {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    color: var(--vis-text-soft);
+    line-height: 2;
+    font-style: italic;
+    border-left: 2px solid #e8ddd0;
+    padding-left: 14px;
+    margin-bottom: 36px;
+  }
+  .vr-milestones-tag {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .vr-milestones { list-style: none; }
+  .vr-milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0ece6;
+  }
+  .vr-milestone:last-child { border-bottom: none; }
+  .vr-milestone-num {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #e8ddd0;
+    min-width: 44px;
+    line-height: 1;
+  }
+  .vr-milestone-text {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 14px;
+    color: var(--vis-text-mid);
+    line-height: 1.7;
+    padding-top: 6px;
+  }
+  .vr-footer {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    color: #bbb;
+    text-align: center;
+    margin-top: 32px;
+  }
+  .vision-result-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .vision-result-actions .vision-btn { margin-top: 0; min-width: 200px; }
+
+  /* ── Goals screen content-card override ── */
+  #screen-vision-goals .content-card {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+  }
+
 </style>
 </head>
 <body>
@@ -1004,6 +1477,11 @@
         <span class="card-icon">🍫</span>
         <div class="card-name">熱可可</div>
         <div class="card-desc">需要療癒<br>純粹被好好接住</div>
+      </div>
+      <div class="menu-card menu-card--vision" onclick="selectMenu('vision')">
+        <span class="card-icon">🍰</span>
+        <div class="card-name">慕斯蛋糕</div>
+        <div class="card-desc">獨一無二的願景板<br>聽見靈魂深處的回響</div>
       </div>
     </div>
 
@@ -1332,6 +1810,74 @@
     </div>
   </div>
 
+
+  <!-- ════════════════════════════════════════
+       VISION BOARD SCREENS
+  ════════════════════════════════════════ -->
+
+  <!-- VISION 1：輸入名字 -->
+  <div id="screen-vision-intro" style="display:none; width:min(640px,100%); animation:fadeIn 0.6s ease;">
+    <div class="vision-intro-wrap">
+      <div class="vision-supertitle">VISION BOARD CREATOR</div>
+      <div class="vision-year-title" id="vision-year-display">2026 願景板</div>
+      <div class="vision-intro-desc" id="vision-year-desc">製作屬於你、獨一無二的 <span id="vision-year-inline">2026</span>，<br>在未來的藍圖裡，聽見靈魂深處的回響。</div>
+      <div class="vision-name-section">
+        <div class="vision-name-label">輸入你的名字或稱呼</div>
+        <input class="vision-name-input" id="vision-name-input" type="text" placeholder="你的名字..." oninput="updateVisionStartBtn()">
+        <div class="vision-name-hint" id="vision-name-hint"></div>
+      </div>
+      <button class="vision-btn" id="vision-start-btn" onclick="startVisionJourney()" disabled>開 啟 旅 程</button>
+    </div>
+  </div>
+
+  <!-- VISION 2：靈魂本質 (選10個) -->
+  <div id="screen-vision-essence" style="display:none; width:min(760px,100%); animation:fadeIn 0.6s ease;">
+    <div class="vision-section-title">靈 魂 本 質</div>
+    <div class="vision-section-sub" id="essence-counter">請從以下關鍵字中，挑選 10 個最能觸動你的詞彙 (0/10)</div>
+    <div class="vision-keywords" id="essence-grid"></div>
+    <button class="vision-btn" id="essence-next-btn" onclick="goToRefine()" disabled>繼 續</button>
+  </div>
+
+  <!-- VISION 3：淬鍊靈魂 (從10個中選3個) -->
+  <div id="screen-vision-refine" style="display:none; width:min(640px,100%); animation:fadeIn 0.6s ease;">
+    <div class="vision-section-title">淬 鍊 靈 魂</div>
+    <div class="vision-section-sub" id="refine-counter">在 <span id="refine-year">2026</span>，你最渴望擁有的 3 個核心是？(0/3)</div>
+    <div class="vision-keywords vision-keywords--refine" id="refine-grid"></div>
+    <button class="vision-btn" id="refine-next-btn" onclick="goToGoals()" disabled>確 認 願 景</button>
+  </div>
+
+  <!-- VISION 4：願景清單 (5個目標) -->
+  <div id="screen-vision-goals" style="display:none; width:min(640px,100%); animation:fadeIn 0.6s ease;">
+    <div class="content-card">
+      <div class="vision-core-tags" id="goals-core-tags"></div>
+      <div class="vision-blessing-box" id="goals-blessing"></div>
+      <div class="vision-goals-instruction">
+        請寫下 <span id="goals-year">2026</span> 的 5 個具體目標<br>
+        <span class="vision-goals-hint">（請不要輸入重複的目標內容喔！<span id="goals-year2">2026</span> 你應該有很多想嘗試、想完成的事吧？）</span>
+      </div>
+      <div class="vision-goals-list" id="goals-list"></div>
+      <button class="vision-btn" id="goals-next-btn" onclick="goToPriority()" disabled>寫 好 了 ！</button>
+    </div>
+  </div>
+
+  <!-- VISION 5：最重要的3個 -->
+  <div id="screen-vision-priority" style="display:none; width:min(640px,100%); animation:fadeIn 0.6s ease;">
+    <div class="vision-breathe-title">很棒！你寫下了想做的事～<br>請你靜下心，深呼吸...</div>
+    <div class="vision-priority-prompt">這五件事裡，你絕對要達成的事情是哪三個呢？</div>
+    <div class="vision-priority-sub">請挑選出最絕對的 3 個項目</div>
+    <div class="vision-priority-list" id="priority-list"></div>
+    <button class="vision-btn" id="priority-next-btn" onclick="goToVisionResult()" disabled>下 一 步</button>
+  </div>
+
+  <!-- VISION 6：成果展示 -->
+  <div id="screen-vision-result" style="display:none; width:min(640px,100%); animation:fadeIn 0.6s ease;">
+    <div class="vision-result-card" id="vision-result-card"></div>
+    <div class="vision-result-actions">
+      <button class="vision-btn" onclick="downloadVisionResult()">⬇ 下載 2026 願景</button>
+      <button class="vision-btn vision-btn--outline" onclick="show('screen-sign')">重 新 開 始</button>
+    </div>
+  </div>
+
 </div><!-- /app-wrapper -->
 
 <script>
@@ -1425,6 +1971,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // 導航
 // ═══════════════════════════════════════════
 function show(id) {
+  ['screen-vision-intro','screen-vision-essence','screen-vision-refine','screen-vision-goals','screen-vision-priority','screen-vision-result']
+    .forEach(s => { const el = document.getElementById(s); if(el) el.style.display = 'none'; });
   ['screen-sign','screen-closed','screen-privacy','screen-survey','screen-done']
     .forEach(s => document.getElementById(s).style.display = 'none');
   document.getElementById(id).style.display = (id === 'screen-sign') ? 'flex' : 'block';
@@ -1434,6 +1982,10 @@ function show(id) {
 function selectMenu(type) {
   if (isClosedToday()) return;
   state.selectedMenu = type;
+  if (type === 'vision') {
+    show('screen-vision-intro');
+    return;
+  }
   const labels = { americano:'☕ 美式咖啡', latte:'🥛 拿鐵咖啡', cocoa:'🍫 熱可可' };
   document.getElementById('survey-menu-tag').textContent = '你點的是：' + labels[type];
   show('screen-privacy');
@@ -1616,7 +2168,265 @@ async function submitSurvey() {
   document.getElementById('loading').classList.remove('active');
   show('screen-done');
 }
-</script>
 
-</body>
-</html>
+// ═══════════════════════════════════════════════════
+// VISION BOARD 邏輯
+// ═══════════════════════════════════════════════════
+const visionState = {
+  name: '',
+  year: new Date().getFullYear(),
+  essenceSelected: [],   // 10個
+  coreSelected: [],      // 3個
+  goals: [],             // 5個目標
+  priorities: [],        // 3個最重要
+  blessing: '',
+};
+
+const ESSENCE_KEYWORDS = [
+  '富有意義','專業權威','創新','領導力','財富',
+  '解決問題','影響力','策略思考','創業精神','穩定可靠',
+  '國際視野','高品質','持續進步','好奇心','韌性',
+  '真實自我','勇氣','智慧','自律','創造力',
+  '內在平靜','學習力','自信','正念','歸屬感',
+  '自由','平衡','健康活力','豐盛','熱情',
+  '極簡','愉悅','冒險','安全感','浪漫',
+  '幫助他人','深層連結','共好','同理心','感恩',
+  '傳承','和睦','公平正義','友誼','多元',
+  '心流','卓越','深耕','覺醒','圓滿',
+  '做自己','成就感','保持學習','發揮創造力','有內涵的生命',
+];
+
+// 初始化：設定年份文字
+function initVisionYear() {
+  const y = visionState.year;
+  ['vision-year-display','vision-year-title'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = y + ' 願景板';
+  });
+  document.querySelectorAll('#vision-year-inline, #refine-year, #goals-year, #goals-year2').forEach(el => {
+    el.textContent = y;
+  });
+  const desc = document.getElementById('vision-year-desc');
+  if (desc) desc.innerHTML = '製作屬於你、獨一無二的 <span id="vision-year-inline">' + y + '</span>，<br>在未來的藍圖裡，聽見靈魂深處的回響。';
+}
+
+function updateVisionStartBtn() {
+  const val = document.getElementById('vision-name-input').value.trim();
+  document.getElementById('vision-start-btn').disabled = val.length === 0;
+}
+
+function startVisionJourney() {
+  visionState.name = document.getElementById('vision-name-input').value.trim();
+  if (!visionState.name) return;
+  renderEssenceGrid();
+  show('screen-vision-essence');
+}
+
+// ── 靈魂本質 ──
+function renderEssenceGrid() {
+  const grid = document.getElementById('essence-grid');
+  grid.innerHTML = '';
+  ESSENCE_KEYWORDS.forEach(kw => {
+    const chip = document.createElement('div');
+    chip.className = 'vk-chip';
+    chip.textContent = kw;
+    chip.onclick = () => toggleEssence(chip, kw);
+    grid.appendChild(chip);
+  });
+}
+
+function toggleEssence(chip, kw) {
+  const sel = visionState.essenceSelected;
+  if (chip.classList.contains('vk-selected')) {
+    chip.classList.remove('vk-selected');
+    visionState.essenceSelected = sel.filter(k => k !== kw);
+  } else {
+    if (sel.length >= 10) return;
+    chip.classList.add('vk-selected');
+    visionState.essenceSelected.push(kw);
+  }
+  const count = visionState.essenceSelected.length;
+  document.getElementById('essence-counter').textContent =
+    '請從以下關鍵字中，挑選 10 個最能觸動你的詞彙 (' + count + '/10)';
+  // 禁用未選的 chip（已達10個時）
+  document.querySelectorAll('#essence-grid .vk-chip').forEach(c => {
+    if (!c.classList.contains('vk-selected')) {
+      c.classList.toggle('vk-disabled', count >= 10);
+    }
+  });
+  document.getElementById('essence-next-btn').disabled = count < 10;
+}
+
+// ── 淬鍊靈魂 ──
+function goToRefine() {
+  visionState.coreSelected = [];
+  const grid = document.getElementById('refine-grid');
+  grid.innerHTML = '';
+  visionState.essenceSelected.forEach(kw => {
+    const chip = document.createElement('div');
+    chip.className = 'vk-chip';
+    chip.textContent = kw;
+    chip.onclick = () => toggleCore(chip, kw);
+    grid.appendChild(chip);
+  });
+  document.getElementById('refine-counter').innerHTML =
+    '在 <span id="refine-year">' + visionState.year + '</span>，你最渴望擁有的 3 個核心是？(0/3)';
+  document.getElementById('refine-next-btn').disabled = true;
+  show('screen-vision-refine');
+}
+
+function toggleCore(chip, kw) {
+  const sel = visionState.coreSelected;
+  if (chip.classList.contains('vk-selected')) {
+    chip.classList.remove('vk-selected');
+    visionState.coreSelected = sel.filter(k => k !== kw);
+  } else {
+    if (sel.length >= 3) return;
+    chip.classList.add('vk-selected');
+    visionState.coreSelected.push(kw);
+  }
+  const count = visionState.coreSelected.length;
+  document.getElementById('refine-counter').innerHTML =
+    '在 <span id="refine-year">' + visionState.year + '</span>，你最渴望擁有的 3 個核心是？(' + count + '/3)';
+  document.querySelectorAll('#refine-grid .vk-chip').forEach(c => {
+    if (!c.classList.contains('vk-selected')) {
+      c.classList.toggle('vk-disabled', count >= 3);
+    }
+  });
+  document.getElementById('refine-next-btn').disabled = count < 3;
+}
+
+// ── 願景清單 ──
+async function goToGoals() {
+  // 生成祝福語
+  visionState.blessing = await generateBlessing();
+  // 渲染 core tags
+  const tagsEl = document.getElementById('goals-core-tags');
+  tagsEl.innerHTML = visionState.coreSelected.map(k => '<span>#' + k + '</span>').join(' ');
+  // 渲染祝福語
+  document.getElementById('goals-blessing').textContent = visionState.blessing;
+  // 渲染5個輸入框
+  const list = document.getElementById('goals-list');
+  list.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const row = document.createElement('div');
+    row.className = 'vision-goal-row';
+    row.innerHTML = '<span class="vision-goal-num">0' + i + '</span>' +
+      '<input class="vision-goal-input" placeholder="願景清單項目 ' + i + '" oninput="checkGoalsComplete()">';
+    list.appendChild(row);
+  }
+  document.getElementById('goals-year').textContent = visionState.year;
+  document.getElementById('goals-year2').textContent = visionState.year;
+  document.getElementById('goals-next-btn').disabled = true;
+  show('screen-vision-goals');
+}
+
+async function generateBlessing() {
+  try {
+    const core = visionState.coreSelected.join('、');
+    const name = visionState.name;
+    const year = visionState.year;
+    const prompt = `你是一位溫暖的職涯引導師。請用以下三個核心詞彙「${core}」，為名叫「${name}」的人寫一句充滿祝福與力量的話，描述他們在${year}年的生命狀態。要求：以名字開頭，20-30字，優美的中文，帶有詩意，不要分行，不要引號。`;
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 100,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.[0]?.text?.trim() || '';
+    if (text) return text;
+  } catch(e) {}
+  // fallback 祝福語
+  const c = visionState.coreSelected;
+  return visionState.name + '，願你在' + c[0] + '中築夢，以' + c[1] + '為底蘊，乘著' + c[2] + '的翅膀，活出' + visionState.year + '最閃耀的生命光芒。';
+}
+
+function checkGoalsComplete() {
+  const inputs = document.querySelectorAll('#goals-list .vision-goal-input');
+  const allFilled = Array.from(inputs).every(inp => inp.value.trim().length > 0);
+  document.getElementById('goals-next-btn').disabled = !allFilled;
+}
+
+// ── 優先排序 ──
+function goToPriority() {
+  const inputs = document.querySelectorAll('#goals-list .vision-goal-input');
+  visionState.goals = Array.from(inputs).map(inp => inp.value.trim()).filter(v => v);
+  visionState.priorities = [];
+  const list = document.getElementById('priority-list');
+  list.innerHTML = '';
+  visionState.goals.forEach(goal => {
+    const item = document.createElement('div');
+    item.className = 'vision-priority-item';
+    item.innerHTML = '<div class="vp-dot"></div><div class="vp-text">' + goal + '</div>';
+    item.onclick = () => togglePriority(item, goal);
+    list.appendChild(item);
+  });
+  document.getElementById('priority-next-btn').disabled = true;
+  show('screen-vision-priority');
+}
+
+function togglePriority(item, goal) {
+  const sel = visionState.priorities;
+  if (item.classList.contains('vp-selected')) {
+    item.classList.remove('vp-selected');
+    visionState.priorities = sel.filter(g => g !== goal);
+  } else {
+    if (sel.length >= 3) return;
+    item.classList.add('vp-selected');
+    visionState.priorities.push(goal);
+  }
+  document.getElementById('priority-next-btn').disabled = visionState.priorities.length < 3;
+}
+
+// ── 結果展示 ──
+function goToVisionResult() {
+  const year = visionState.year;
+  const name = visionState.name;
+  const cores = visionState.coreSelected;
+  const milestones = visionState.priorities;
+  const blessing = visionState.blessing;
+
+  const card = document.getElementById('vision-result-card');
+  card.innerHTML = `
+    <div class="vr-manifestation-tag">MANIFESTATION OF ${year}</div>
+    <div class="vr-name">${name}</div>
+    <div style="display:flex;gap:32px;align-items:flex-start;margin-bottom:32px;flex-wrap:wrap;">
+      <div style="flex:0 0 auto;">
+        <div class="vr-essences-tag">THE ESSENCES</div>
+        <div class="vr-essences">
+          ${cores.map(c => '<div class="vr-essence-item">#' + c + '</div>').join('')}
+        </div>
+      </div>
+      <div class="vr-blessing" style="flex:1;min-width:160px;">「${blessing}」</div>
+    </div>
+    <div class="vr-milestones-tag">MILESTONES TO REACH</div>
+    <ul class="vr-milestones">
+      ${milestones.map((m,i)=>'<li class="vr-milestone"><span class="vr-milestone-num">0'+(i+1)+'</span><span class="vr-milestone-text">'+m+'</span></li>').join('')}
+    </ul>
+    <div class="vr-footer">FUTURE SELF &nbsp;•&nbsp; WHISPERS OF ${year} &nbsp;•&nbsp; DESIGN BY ${name}</div>
+  `;
+  show('screen-vision-result');
+}
+
+function downloadVisionResult() {
+  const card = document.getElementById('vision-result-card');
+  // 簡單列印
+  const printWin = window.open('', '_blank');
+  printWin.document.write('<html><head><title>' + visionState.year + ' 願景板</title>');
+  printWin.document.write('<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">');
+  printWin.document.write('<style>body{font-family:"Noto Serif TC",serif;margin:40px;background:#fff;color:#2e2e2e;} .vr-manifestation-tag{font-size:10px;letter-spacing:0.3em;color:#aaa;text-align:center;margin-bottom:10px;} .vr-name{font-size:40px;font-weight:300;text-align:center;color:#3d4a56;letter-spacing:0.12em;margin-bottom:40px;} .vr-essences-tag{font-size:10px;letter-spacing:0.28em;color:#aaa;margin-bottom:12px;} .vr-essence-item{font-size:20px;color:#3d4a56;} .vr-blessing{font-size:13px;color:#8a7f72;line-height:2;font-style:italic;border-left:2px solid #e8ddd0;padding-left:14px;margin-bottom:36px;} .vr-milestones-tag{font-size:10px;letter-spacing:0.28em;color:#aaa;text-align:center;margin-bottom:20px;} .vr-milestone{display:flex;gap:18px;padding:14px 0;border-bottom:1px solid #f0ece6;} .vr-milestone-num{font-size:28px;font-weight:700;color:#e8ddd0;min-width:44px;} .vr-milestone-text{font-size:14px;color:#5a5243;line-height:1.7;padding-top:6px;} .vr-footer{font-size:9px;letter-spacing:0.22em;color:#bbb;text-align:center;margin-top:32px;}</style>');
+  printWin.document.write('</head><body>' + card.innerHTML + '</body></html>');
+  printWin.document.close();
+  printWin.print();
+}
+
+// 頁面載入時初始化
+window.addEventListener('DOMContentLoaded', () => {
+  initVisionYear();
+});
+
+</script>
