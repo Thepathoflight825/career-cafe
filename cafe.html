@@ -1093,6 +1093,17 @@
     background: var(--vis-accent);
     color: white;
   }
+  .vision-btn--back {
+    font-size: 12px;
+    padding: 10px 36px;
+    min-width: 0;
+    margin-top: 12px;
+    opacity: 0.55;
+    letter-spacing: 0.18em;
+  }
+  .vision-btn--back:hover {
+    opacity: 1;
+  }
 
   /* ── Vision Section Layout ── */
   #screen-vision-essence,
@@ -1849,6 +1860,7 @@
     <div class="vision-section-sub" id="refine-counter">在 <span id="refine-year">2026</span>，你最渴望擁有的 3 個核心是？(0/3)</div>
     <div class="vision-keywords vision-keywords--refine" id="refine-grid"></div>
     <button class="vision-btn" id="refine-next-btn" onclick="goToGoals()" disabled>確 認 願 景</button>
+    <button class="vision-btn vision-btn--outline vision-btn--back" onclick="backToEssence()">上 一 步</button>
   </div>
 
   <!-- VISION 4：願景清單 (5個目標) -->
@@ -1862,6 +1874,7 @@
       </div>
       <div class="vision-goals-list" id="goals-list"></div>
       <button class="vision-btn" id="goals-next-btn" onclick="goToPriority()" disabled>寫 好 了 ！</button>
+      <button class="vision-btn vision-btn--outline vision-btn--back" onclick="backToRefine()">上 一 步</button>
     </div>
   </div>
 
@@ -1872,6 +1885,7 @@
     <div class="vision-priority-sub">請挑選出最絕對的 3 個項目</div>
     <div class="vision-priority-list" id="priority-list"></div>
     <button class="vision-btn" id="priority-next-btn" onclick="goToVisionResult()" disabled>下 一 步</button>
+    <button class="vision-btn vision-btn--outline vision-btn--back" onclick="backToGoals()">上 一 步</button>
   </div>
 
   <!-- VISION 6：成果展示 -->
@@ -1881,6 +1895,7 @@
       <button class="vision-btn" onclick="downloadVisionResult()">⬇ 下載 2026 願景</button>
       <button class="vision-btn vision-btn--outline" onclick="show('screen-sign')">重 新 開 始</button>
     </div>
+    <button class="vision-btn vision-btn--outline vision-btn--back" onclick="backToPriority()">上 一 步</button>
   </div>
 
 </div><!-- /app-wrapper -->
@@ -2417,6 +2432,97 @@ function goToVisionResult() {
     <div class="vr-footer">FUTURE SELF &nbsp;•&nbsp; WHISPERS OF ${year} &nbsp;•&nbsp; DESIGN BY ${name}</div>
   `;
   show('screen-vision-result');
+}
+
+
+// ── 上一步函式 ──
+
+function backToEssence() {
+  // 返回 essence，恢復之前選取的 10 個詞彙狀態
+  renderEssenceGrid();
+  // 重新標記已選取的 chip
+  visionState.essenceSelected.forEach(kw => {
+    document.querySelectorAll('#essence-grid .vk-chip').forEach(chip => {
+      if (chip.textContent === kw) chip.classList.add('vk-selected');
+    });
+  });
+  // 若已達10個，禁用未選的
+  if (visionState.essenceSelected.length >= 10) {
+    document.querySelectorAll('#essence-grid .vk-chip').forEach(c => {
+      if (!c.classList.contains('vk-selected')) c.classList.add('vk-disabled');
+    });
+  }
+  const count = visionState.essenceSelected.length;
+  document.getElementById('essence-counter').textContent =
+    '請從以下關鍵字中，挑選 10 個最能觸動你的詞彙 (' + count + '/10)';
+  document.getElementById('essence-next-btn').disabled = count < 10;
+  show('screen-vision-essence');
+}
+
+function backToRefine() {
+  // 保留已填的目標文字到 state
+  const inputs = document.querySelectorAll('#goals-list .vision-goal-input');
+  visionState.goals = Array.from(inputs).map(inp => inp.value.trim());
+  // 返回 refine，恢復已選的 3 個核心狀態
+  const grid = document.getElementById('refine-grid');
+  grid.innerHTML = '';
+  visionState.essenceSelected.forEach(kw => {
+    const chip = document.createElement('div');
+    chip.className = 'vk-chip';
+    if (visionState.coreSelected.includes(kw)) chip.classList.add('vk-selected');
+    chip.textContent = kw;
+    chip.onclick = () => toggleCore(chip, kw);
+    grid.appendChild(chip);
+  });
+  const count = visionState.coreSelected.length;
+  document.getElementById('refine-counter').innerHTML =
+    '在 <span id="refine-year">' + visionState.year + '</span>，你最渴望擁有的 3 個核心是？(' + count + '/3)';
+  if (count >= 3) {
+    document.querySelectorAll('#refine-grid .vk-chip').forEach(c => {
+      if (!c.classList.contains('vk-selected')) c.classList.add('vk-disabled');
+    });
+  }
+  document.getElementById('refine-next-btn').disabled = count < 3;
+  show('screen-vision-refine');
+}
+
+function backToGoals() {
+  // 返回 goals，保留已填的目標（從 visionState.goals 讀回）
+  const tagsEl = document.getElementById('goals-core-tags');
+  tagsEl.innerHTML = visionState.coreSelected.map(k => '<span>#' + k + '</span>').join(' ');
+  document.getElementById('goals-blessing').textContent = visionState.blessing;
+  const list = document.getElementById('goals-list');
+  list.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const row = document.createElement('div');
+    row.className = 'vision-goal-row';
+    const saved = visionState.goals[i - 1] || '';
+    row.innerHTML = '<span class="vision-goal-num">0' + i + '</span>' +
+      '<input class="vision-goal-input" placeholder="願景清單項目 ' + i + '" oninput="checkGoalsComplete()" value="' +
+      saved.replace(/"/g, '&quot;') + '">';
+    list.appendChild(row);
+  }
+  document.getElementById('goals-year').textContent = visionState.year;
+  document.getElementById('goals-year2').textContent = visionState.year;
+  const allFilled = visionState.goals.slice(0, 5).filter(v => v).length === 5;
+  document.getElementById('goals-next-btn').disabled = !allFilled;
+  show('screen-vision-goals');
+}
+
+function backToPriority() {
+  // 返回 priority，恢復已選的優先項目
+  const list = document.getElementById('priority-list');
+  list.innerHTML = '';
+  visionState.goals.forEach(goal => {
+    const item = document.createElement('div');
+    item.className = 'vision-priority-item';
+    if (visionState.priorities.includes(goal)) item.classList.add('vp-selected');
+    item.innerHTML = '<div class="vp-dot"></div><div class="vp-text">' + goal + '</div>';
+    item.onclick = () => togglePriority(item, goal);
+    list.appendChild(item);
+  });
+  document.getElementById('priority-next-btn').disabled = visionState.priorities.length < 3;
+  show('screen-vision-priority');
 }
 
 function downloadVisionResult() {
