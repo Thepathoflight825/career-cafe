@@ -1514,6 +1514,11 @@
   <!-- ════ SCREEN 2：保密說明 ════ -->
   <div id="screen-privacy">
     <div class="content-card">
+      <div style="margin-bottom: 16px;">
+        <button onclick="show('screen-sign')" style="background:none; border:none; cursor:pointer; color:var(--latte); font-family:'Noto Serif TC',serif; font-size:13px; letter-spacing:0.05em; opacity:0.75; padding:0; display:flex; align-items:center; gap:6px; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+          ← 重新點餐
+        </button>
+      </div>
       <div class="screen-header">
         <div class="screen-eyebrow">進入前，請先閱讀</div>
         <div class="screen-title">珈琲諮詢服務<br>定位與保密說明</div>
@@ -1833,6 +1838,11 @@
 
   <!-- VISION 1：輸入名字 -->
   <div id="screen-vision-intro" style="display:none; width:min(640px,100%); animation:fadeIn 0.6s ease;">
+    <div style="margin-bottom: 16px; display:flex; justify-content:flex-start;">
+      <button onclick="show('screen-sign')" style="background:none; border:none; cursor:pointer; color:var(--latte); font-family:'Noto Serif TC',serif; font-size:13px; letter-spacing:0.05em; opacity:0.75; padding:0; display:flex; align-items:center; gap:6px; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.75'">
+        ← 重新點餐
+      </button>
+    </div>
     <div class="vision-intro-wrap">
       <div class="vision-supertitle">VISION BOARD CREATOR</div>
       <div class="vision-year-title" id="vision-year-display">2026 願景板</div>
