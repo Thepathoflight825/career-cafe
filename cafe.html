@@ -2022,11 +2022,12 @@ function show(id) {
 function selectMenu(type) {
   if (isClosedToday()) return;
   state.selectedMenu = type;
+  startMusic(); // 使用者點選圖卡，觸發音樂播放
   if (type === 'vision') {
     show('screen-vision-intro');
     return;
   }
-  const labels = { americano:'☕ 美式咖啡', latte:'🥛 拿鐵咖啡', cocoa:'🍫 熱可可' };
+  const labels = { americano:'☕ 美式咖啡', latte:'🧋 拿鐵咖啡', cocoa:'🍫 熱可可' };
   document.getElementById('survey-menu-tag').textContent = '你點的是：' + labels[type];
   show('screen-privacy');
 }
@@ -2600,20 +2601,33 @@ function initMusic() {
   const bgm = document.getElementById('bgm');
   if (!bgm) return;
 
-  // 靜音自動播放（繞過瀏覽器限制）
+  // 頁面載入時靜音備妥（不播放，等使用者點圖卡再啟動）
   bgm.muted = true;
-  bgm.play().catch(() => {});
 
   // 播完自動換下一首
   bgm.addEventListener('ended', () => {
     currentTrack = (currentTrack + 1) % TRACKS.length;
     bgm.src = TRACKS[currentTrack];
     bgm.load();
-    if (musicOn) {
-      bgm.muted = false;
-    }
+    bgm.muted = !musicOn;
     bgm.play().catch(() => {});
   });
+}
+
+function startMusic() {
+  if (musicOn) return; // 已在播放，不重複觸發
+  const bgm = document.getElementById('bgm');
+  const btn = document.getElementById('music-btn');
+  if (!bgm) return;
+  bgm.muted = false;
+  bgm.play().catch(() => {});
+  musicOn = true;
+  if (btn) {
+    btn.innerHTML = '🔊';
+    btn.title = '關閉音樂';
+    btn.style.background = 'rgba(201,169,110,0.25)';
+    btn.style.borderColor = 'rgba(201,169,110,0.6)';
+  }
 }
 
 function toggleMusic() {
